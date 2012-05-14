@@ -24,17 +24,17 @@
 		6A54A3B31561BA870018D7F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6A54A3B51561BA870018D7F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6A54A3B71561BA870018D7F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		6A54A3BB1561BA870018D7F8 /* AndrewQPA-Info.plist */ = {isa = PBXFileReference; path = "AndrewQPA-Info.plist"; sourceTree = "<group>"; };
+		6A54A3BB1561BA870018D7F8 /* AndrewQPA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AndrewQPA-Info.plist"; sourceTree = "<group>"; };
 		6A54A3BD1561BA870018D7F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A54A3BF1561BA870018D7F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6A54A3C11561BA870018D7F8 /* AndrewQPA-Prefix.pch */ = {isa = PBXFileReference; path = "AndrewQPA-Prefix.pch"; sourceTree = "<group>"; };
-		6A54A3C21561BA870018D7F8 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		6A54A3C11561BA870018D7F8 /* AndrewQPA-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AndrewQPA-Prefix.pch"; sourceTree = "<group>"; };
+		6A54A3C21561BA870018D7F8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6A54A3C31561BA870018D7F8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6A54A3C61561BA870018D7F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		6A54A3C91561BA870018D7F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		6A54A3CB1561BA880018D7F8 /* MainViewController.h */ = {isa = PBXFileReference; path = MainViewController.h; sourceTree = "<group>"; };
+		6A54A3CB1561BA880018D7F8 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		6A54A3CC1561BA880018D7F8 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		6A54A3CE1561BA880018D7F8 /* FlipsideViewController.h */ = {isa = PBXFileReference; path = FlipsideViewController.h; sourceTree = "<group>"; };
+		6A54A3CE1561BA880018D7F8 /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		6A54A3CF1561BA880018D7F8 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
