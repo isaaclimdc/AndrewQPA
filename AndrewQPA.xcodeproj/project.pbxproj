@@ -45,8 +45,8 @@
 		6AC7EA091562118E0099118B /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		6AC7EA0C156212AA0099118B /* CourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCell.h; sourceTree = "<group>"; };
 		6AC7EA0D156212AB0099118B /* CourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseCell.m; sourceTree = "<group>"; };
-		6AC7EA151562188A0099118B /* CourseAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseAddViewController.h; path = ../CourseAddViewController.h; sourceTree = "<group>"; };
-		6AC7EA161562188A0099118B /* CourseAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseAddViewController.m; path = ../CourseAddViewController.m; sourceTree = "<group>"; };
+		6AC7EA151562188A0099118B /* CourseAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseAddViewController.h; sourceTree = "<group>"; };
+		6AC7EA161562188A0099118B /* CourseAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseAddViewController.m; sourceTree = "<group>"; };
 		6AC7EA20156298820099118B /* A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = A.png; sourceTree = "<group>"; };
 		6AC7EA21156298820099118B /* B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B.png; sourceTree = "<group>"; };
 		6AC7EA22156298820099118B /* C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = C.png; sourceTree = "<group>"; };
