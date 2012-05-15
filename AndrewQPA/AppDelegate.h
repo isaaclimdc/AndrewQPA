@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Course.h"
+#import "CoursesViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+  NSMutableArray *courses;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

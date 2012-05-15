@@ -15,8 +15,15 @@
 		6A54A3C41561BA870018D7F8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A54A3C31561BA870018D7F8 /* AppDelegate.m */; };
 		6A54A3C71561BA870018D7F8 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A54A3C51561BA870018D7F8 /* MainStoryboard_iPhone.storyboard */; };
 		6A54A3CA1561BA870018D7F8 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A54A3C81561BA870018D7F8 /* MainStoryboard_iPad.storyboard */; };
-		6A54A3CD1561BA880018D7F8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A54A3CC1561BA880018D7F8 /* MainViewController.m */; };
-		6A54A3D01561BA880018D7F8 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A54A3CF1561BA880018D7F8 /* FlipsideViewController.m */; };
+		6A68A3CD1561C30600C9927B /* CoursesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A68A3CC1561C30600C9927B /* CoursesViewController.m */; };
+		6AC7EA0A1562118E0099118B /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC7EA091562118E0099118B /* Course.m */; };
+		6AC7EA0E156212AB0099118B /* CourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC7EA0D156212AB0099118B /* CourseCell.m */; };
+		6AC7EA171562188A0099118B /* CourseAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC7EA161562188A0099118B /* CourseAddViewController.m */; };
+		6AC7EA25156298830099118B /* A.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC7EA20156298820099118B /* A.png */; };
+		6AC7EA26156298830099118B /* B.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC7EA21156298820099118B /* B.png */; };
+		6AC7EA27156298830099118B /* C.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC7EA22156298820099118B /* C.png */; };
+		6AC7EA28156298830099118B /* D.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC7EA23156298820099118B /* D.png */; };
+		6AC7EA29156298830099118B /* R.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC7EA24156298820099118B /* R.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +39,19 @@
 		6A54A3C31561BA870018D7F8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6A54A3C61561BA870018D7F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		6A54A3C91561BA870018D7F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		6A54A3CB1561BA880018D7F8 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		6A54A3CC1561BA880018D7F8 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		6A54A3CE1561BA880018D7F8 /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
-		6A54A3CF1561BA880018D7F8 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
+		6A68A3CB1561C30600C9927B /* CoursesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursesViewController.h; sourceTree = "<group>"; };
+		6A68A3CC1561C30600C9927B /* CoursesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursesViewController.m; sourceTree = "<group>"; };
+		6AC7EA081562118E0099118B /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		6AC7EA091562118E0099118B /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		6AC7EA0C156212AA0099118B /* CourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCell.h; sourceTree = "<group>"; };
+		6AC7EA0D156212AB0099118B /* CourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseCell.m; sourceTree = "<group>"; };
+		6AC7EA151562188A0099118B /* CourseAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseAddViewController.h; path = ../CourseAddViewController.h; sourceTree = "<group>"; };
+		6AC7EA161562188A0099118B /* CourseAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseAddViewController.m; path = ../CourseAddViewController.m; sourceTree = "<group>"; };
+		6AC7EA20156298820099118B /* A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = A.png; sourceTree = "<group>"; };
+		6AC7EA21156298820099118B /* B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B.png; sourceTree = "<group>"; };
+		6AC7EA22156298820099118B /* C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = C.png; sourceTree = "<group>"; };
+		6AC7EA23156298820099118B /* D.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = D.png; sourceTree = "<group>"; };
+		6AC7EA24156298820099118B /* R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = R.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,10 +102,19 @@
 				6A54A3C31561BA870018D7F8 /* AppDelegate.m */,
 				6A54A3C51561BA870018D7F8 /* MainStoryboard_iPhone.storyboard */,
 				6A54A3C81561BA870018D7F8 /* MainStoryboard_iPad.storyboard */,
-				6A54A3CB1561BA880018D7F8 /* MainViewController.h */,
-				6A54A3CC1561BA880018D7F8 /* MainViewController.m */,
-				6A54A3CE1561BA880018D7F8 /* FlipsideViewController.h */,
-				6A54A3CF1561BA880018D7F8 /* FlipsideViewController.m */,
+				6A68A3CB1561C30600C9927B /* CoursesViewController.h */,
+				6A68A3CC1561C30600C9927B /* CoursesViewController.m */,
+				6AC7EA151562188A0099118B /* CourseAddViewController.h */,
+				6AC7EA161562188A0099118B /* CourseAddViewController.m */,
+				6AC7EA081562118E0099118B /* Course.h */,
+				6AC7EA091562118E0099118B /* Course.m */,
+				6AC7EA0C156212AA0099118B /* CourseCell.h */,
+				6AC7EA0D156212AB0099118B /* CourseCell.m */,
+				6AC7EA20156298820099118B /* A.png */,
+				6AC7EA21156298820099118B /* B.png */,
+				6AC7EA22156298820099118B /* C.png */,
+				6AC7EA23156298820099118B /* D.png */,
+				6AC7EA24156298820099118B /* R.png */,
 				6A54A3BA1561BA870018D7F8 /* Supporting Files */,
 			);
 			path = AndrewQPA;
@@ -159,6 +184,11 @@
 				6A54A3BE1561BA870018D7F8 /* InfoPlist.strings in Resources */,
 				6A54A3C71561BA870018D7F8 /* MainStoryboard_iPhone.storyboard in Resources */,
 				6A54A3CA1561BA870018D7F8 /* MainStoryboard_iPad.storyboard in Resources */,
+				6AC7EA25156298830099118B /* A.png in Resources */,
+				6AC7EA26156298830099118B /* B.png in Resources */,
+				6AC7EA27156298830099118B /* C.png in Resources */,
+				6AC7EA28156298830099118B /* D.png in Resources */,
+				6AC7EA29156298830099118B /* R.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,8 +201,10 @@
 			files = (
 				6A54A3C01561BA870018D7F8 /* main.m in Sources */,
 				6A54A3C41561BA870018D7F8 /* AppDelegate.m in Sources */,
-				6A54A3CD1561BA880018D7F8 /* MainViewController.m in Sources */,
-				6A54A3D01561BA880018D7F8 /* FlipsideViewController.m in Sources */,
+				6A68A3CD1561C30600C9927B /* CoursesViewController.m in Sources */,
+				6AC7EA0A1562118E0099118B /* Course.m in Sources */,
+				6AC7EA0E156212AB0099118B /* CourseCell.m in Sources */,
+				6AC7EA171562188A0099118B /* CourseAddViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +326,7 @@
 				6A54A3D51561BA880018D7F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
