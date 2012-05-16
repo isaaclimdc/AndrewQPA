@@ -14,7 +14,7 @@
 
 @implementation CoursesViewController
 
-@synthesize courses;
+@synthesize courses, qpa;
 
 - (void)courseAddViewControllerDidCancel:
 (CourseAddViewController *)controller
@@ -32,6 +32,9 @@
 	[self.tableView insertRowsAtIndexPaths:
    [NSArray arrayWithObject:indexPath] 
                         withRowAnimation:UITableViewRowAnimationAutomatic];
+  
+  qpa = [self calculateQPA];
+  [self.tableView reloadData];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -43,6 +46,45 @@
 		CourseAddViewController *courseAddViewController = [[navigationController viewControllers] objectAtIndex:0];
 		courseAddViewController.delegate = self;
 	}
+}
+
+- (int)calculateQualityPoints
+{
+  int total = 0;
+  
+  for (int i = 0; i < [self.courses count]; i++) {
+    Course *course = [courses objectAtIndex:i];    
+    NSString *grade = course.grade;
+    int units = course.units;
+    
+    if ([grade isEqualToString:@"A"])
+      total += 4 * units;
+    else if ([grade isEqualToString:@"B"])
+      total += 3 * units;
+    else if ([grade isEqualToString:@"C"])
+      total += 2 * units;
+    else if ([grade isEqualToString:@"D"])
+      total += 1 * units;
+  }
+  
+  return total;
+}
+
+- (int)calculateUnits
+{
+  int total = 0;
+  
+  for (int i = 0; i < [self.courses count]; i++) {
+    Course *course = [courses objectAtIndex:i];    
+    total += course.units;
+  }
+  
+  return total;
+}
+
+- (float)calculateQPA
+{
+  return (float)[self calculateQualityPoints] / (float)[self calculateUnits];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -91,30 +133,35 @@
   return [self.courses count] + 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  NSUInteger index = [indexPath row];
+  
+  if ([self.courses count] != 0 && index == 0)
+    return 90;
+  else
+    return 55;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  static NSString *CellIdentifier = @"CourseCell";
-  CourseCell *cell = (CourseCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   NSUInteger index = [indexPath row];
   
   if (index == 0) {
-    if ([self.courses count] == 0)
-    cell.nameLabel.text = NULL;
-    cell.unitsLabel.text = NULL;
-    cell.unitsPostLabel.hidden = YES;
+    QPACell *cell = (QPACell *)[tableView dequeueReusableCellWithIdentifier:@"QPACell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
-    label.text = @"Your QPA is:";
-    [self.view addSubview:label];
+    cell.qpaLabel.text = [NSString stringWithFormat:@"%.2f", qpa];
+    cell.qpaLabel.hidden = ([self.courses count] == 0);
+    cell.label.hidden = ([self.courses count] == 0);
+    return cell;
   }
   else {
+    CourseCell *cell = (CourseCell *)[tableView dequeueReusableCellWithIdentifier:@"CourseCell"];
     Course *course = [courses objectAtIndex:index-1];
     cell.nameLabel.text = course.name;
     cell.unitsLabel.text = [NSString stringWithFormat:@"%d", course.units];
     cell.gradeLabel.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", course.grade]];
+    return cell;
   }
-  
-  return cell;
 }
 
 /*

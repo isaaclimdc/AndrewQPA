@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Course.h"
 #import "CourseCell.h"
+#import "QPACell.h"
 #import "CourseAddViewController.h"
 
-@interface CoursesViewController : UITableViewController <CourseAddViewControllerDelegate>
+@interface CoursesViewController : UITableViewController <CourseAddViewControllerDelegate> {
+  float qpa;
+}
 
 @property (nonatomic, strong) NSMutableArray *courses;
+@property (nonatomic) float qpa;
 
 @end

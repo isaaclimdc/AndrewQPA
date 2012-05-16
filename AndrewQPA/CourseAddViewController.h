@@ -17,7 +17,11 @@
                    didAddCourse:(Course *)course;
 @end
 
-@interface CourseAddViewController : UIViewController {
+@interface CourseAddViewController : UIViewController <UITextViewDelegate> {
+  UIView *step1;
+  UIView *step2;
+  UIView *step3;
+  
   UITextView *nameField1;
   UITextView *nameField2;
   UITextView *unitsField;
@@ -27,9 +31,16 @@
   UIButton *gradeButtonD;
   UIButton *gradeButtonR;
   NSString *gradeStr;
+  
+  UIBarButtonItem *saveButton;
+  UILabel *overviewCourse;
+  UILabel *overviewUnits;
 }
 
 @property (nonatomic, weak) id <CourseAddViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UIView *step1;
+@property (nonatomic, retain) IBOutlet UIView *step2;
+@property (nonatomic, retain) IBOutlet UIView *step3;
 @property (nonatomic, retain) IBOutlet UITextView *nameField1;
 @property (nonatomic, retain) IBOutlet UITextView *nameField2;
 @property (nonatomic, retain) IBOutlet UITextView *unitsField;
@@ -39,8 +50,13 @@
 @property (nonatomic, retain) IBOutlet UIButton *gradeButtonD;
 @property (nonatomic, retain) IBOutlet UIButton *gradeButtonR;
 @property (nonatomic, retain) NSString *gradeStr;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
+@property (nonatomic, retain) IBOutlet UILabel *overviewCourse;
+@property (nonatomic, retain) IBOutlet UILabel *overviewUnits;
 
 - (IBAction)cancel:(id)sender;
+- (IBAction)toStep2:(id)sender;
+- (IBAction)toStep3:(id)sender;
 - (IBAction)save:(id)sender;
 
 - (IBAction)gradeA:(id)sender;
