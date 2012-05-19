@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Course.h"
 
 @class CourseAddViewController;
 
 @protocol CourseAddViewControllerDelegate <NSObject>
 - (void)courseAddViewControllerDidCancel:(CourseAddViewController *)controller;
 - (void)courseAddViewController:(CourseAddViewController *)controller
-                   didAddCourse:(Course *)course;
+                   didAddCourse:(NSMutableDictionary *)course;
 @end
 
 @interface CourseAddViewController : UIViewController <UITextViewDelegate> {

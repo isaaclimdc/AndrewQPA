@@ -53,12 +53,11 @@
 
 - (IBAction)save:(id)sender
 {
-  Course *course = [[Course alloc] init];
-  
-  course.name = overviewCourse.text;
-  course.units = [overviewUnits.text intValue];
-  course.grade = gradeStr;
-  
+  NSMutableDictionary *course = [[NSMutableDictionary alloc] initWithCapacity:3];
+  [course setObject:overviewCourse.text forKey:@"name"];
+  [course setObject:overviewUnits.text forKey:@"units"];
+  [course setObject:gradeStr forKey:@"grade"];
+  assert(course != NULL);
 	[self.delegate courseAddViewController:self didAddCourse:course];
 }
 
@@ -73,7 +72,12 @@
     [nameField2 becomeFirstResponder];
   if (nameField2.text.length == 3)
     [self toStep2:nil];
-  if (unitsField.text.length == 2)
+  if ([unitsField.text isEqualToString:@"0"]) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter a nonzero number of units!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    unitsField.text = nil;
+  }
+  if (unitsField.text.length == 2 || (unitsField.text.length == 1 && ([unitsField.text characterAtIndex:0] != '1' && [unitsField.text characterAtIndex:0] != '2')))
     [self toStep3:nil];
 }
 
@@ -120,6 +124,12 @@
 - (IBAction)gradeR:(id)sender
 {
   gradeStr = @"R";
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  saveButton.enabled = YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

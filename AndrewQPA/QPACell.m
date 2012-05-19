@@ -10,7 +10,7 @@
 
 @implementation QPACell
 
-@synthesize label, qpaLabel;
+@synthesize label, qpaLabel, label2, cumQpaLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

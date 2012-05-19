@@ -14,7 +14,7 @@
 
 @implementation CoursesViewController
 
-@synthesize courses, qpa;
+@synthesize courses, sems, currentSem, addCourseButton, qpa, cumQpa;
 
 - (void)courseAddViewControllerDidCancel:
 (CourseAddViewController *)controller
@@ -23,18 +23,31 @@
 }
 
 - (void)courseAddViewController:(CourseAddViewController *)controller
-                   didAddCourse:(Course *)course
+                   didAddCourse:(NSMutableDictionary *)course
 {
-  [self.courses addObject:course];
+  [courses addObject:course];
+  //NSLog(@"Courses length: %d", [courses count]);
+  
+  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  assert(sems != NULL);
+  //assert(courses != NULL);
+  [sems setObject:courses forKey:currentSem];
+  //NSLog(@"Sems: %d", [sems count]);
+  [sems writeToFile:[appDelegate dataFilePath] atomically:YES];
+  //NSLog(@"2012_Spring: %d", [[[[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]] objectForKey:@"2012_Spring"] count]);
+  
   NSIndexPath *indexPath = 
-  [NSIndexPath indexPathForRow:[self.courses count] 
+  [NSIndexPath indexPathForRow:[courses count] 
                      inSection:0];
 	[self.tableView insertRowsAtIndexPaths:
    [NSArray arrayWithObject:indexPath] 
                         withRowAnimation:UITableViewRowAnimationAutomatic];
   
-  qpa = [self calculateQPA];
-  [self.tableView reloadData];
+  qpa = [self calculateQPAfromCourses:courses];
+  cumQpa = [self calculateCumQPA];
+  
+  [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+  
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -48,14 +61,14 @@
 	}
 }
 
-- (int)calculateQualityPoints
+- (int)calculateQualityPointsfromCourses:(NSMutableArray *)c
 {
   int total = 0;
   
-  for (int i = 0; i < [self.courses count]; i++) {
-    Course *course = [courses objectAtIndex:i];    
-    NSString *grade = course.grade;
-    int units = course.units;
+  for (int i = 0; i < [c count]; i++) {
+    NSMutableDictionary *course = [c objectAtIndex:i];    
+    NSString *grade = [course objectForKey:@"grade"];
+    int units = [[course objectForKey:@"units"] intValue];
     
     if ([grade isEqualToString:@"A"])
       total += 4 * units;
@@ -70,41 +83,69 @@
   return total;
 }
 
-- (int)calculateUnits
+- (int)calculateUnitsfromCourses:(NSMutableArray *)c
 {
   int total = 0;
   
-  for (int i = 0; i < [self.courses count]; i++) {
-    Course *course = [courses objectAtIndex:i];    
-    total += course.units;
+  for (int i = 0; i < [c count]; i++) {
+    NSMutableDictionary *course = [c objectAtIndex:i];    
+    total += [[course objectForKey:@"units"] intValue];
   }
   
   return total;
 }
 
-- (float)calculateQPA
+- (float)calculateQPAfromCourses:(NSMutableArray *)c
 {
-  return (float)[self calculateQualityPoints] / (float)[self calculateUnits];
+  return (float)[self calculateQualityPointsfromCourses:c] / (float)[self calculateUnitsfromCourses:c];
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (float)calculateCumQPA
 {
-  self = [super initWithStyle:style];
-  if (self) {
-    // Custom initialization
+  int cumQualityPoints = 0;
+  int cumUnits = 0;
+  
+  NSArray *keys = [sems allKeys];
+  for (NSString *str in keys) {
+    NSMutableArray *c = [sems objectForKey:str];
+    cumQualityPoints += [self calculateQualityPointsfromCourses:c];
+    cumUnits += [self calculateUnitsfromCourses:c];
   }
-  return self;
+  
+  return (float)cumQualityPoints / (float)cumUnits;
 }
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
-  // Uncomment the following line to preserve selection between presentations.
-  // self.clearsSelectionOnViewWillAppear = NO;
+  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  sems = [[NSMutableDictionary alloc] initWithCapacity:10];
+  NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]];
+  if ([dict count] != 0)
+    sems = dict;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
   
-  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  currentSem = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentSem"];
+  NSLog(@"%@", currentSem);
+  if (currentSem == NULL) {
+    addCourseButton.enabled = NO;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Andrew QPA!" message:@"Please tap on the top left button to add a semester." delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    [alert show];
+  }
+  else {
+    addCourseButton.enabled = YES;
+  }
+  
+  courses = [[NSMutableArray alloc] initWithArray:[sems objectForKey:currentSem]];
+  qpa = [self calculateQPAfromCourses:courses];
+  cumQpa = [self calculateCumQPA];
+  
+  [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -148,44 +189,64 @@
   
   if (index == 0) {
     QPACell *cell = (QPACell *)[tableView dequeueReusableCellWithIdentifier:@"QPACell"];
+    BOOL hide = ([courses count] == 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.label.text = [NSString stringWithFormat:@"Your %@ QPA is:", currentSem];
+    cell.label.hidden = hide;
     cell.qpaLabel.text = [NSString stringWithFormat:@"%.2f", qpa];
-    cell.qpaLabel.hidden = ([self.courses count] == 0);
-    cell.label.hidden = ([self.courses count] == 0);
+    cell.qpaLabel.hidden = hide;
+    cell.label2.hidden = hide;
+    cell.cumQpaLabel.text = [NSString stringWithFormat:@"%.2f", cumQpa];
+    cell.cumQpaLabel.hidden = hide;
+    
     return cell;
   }
   else {
     CourseCell *cell = (CourseCell *)[tableView dequeueReusableCellWithIdentifier:@"CourseCell"];
-    Course *course = [courses objectAtIndex:index-1];
-    cell.nameLabel.text = course.name;
-    cell.unitsLabel.text = [NSString stringWithFormat:@"%d", course.units];
-    cell.gradeLabel.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", course.grade]];
+    NSMutableDictionary *course = [courses objectAtIndex:index-1];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.nameLabel.text = [course objectForKey:@"name"];
+    cell.unitsLabel.text = [course objectForKey:@"units"];
+    cell.gradeLabel.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [course objectForKey:@"grade"]]];
     return cell;
   }
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  if ([indexPath row] == 0)
+    return NO;
+  else
+    return YES;
+}
+
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  NSUInteger index = [indexPath row];
+  
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    [courses removeObjectAtIndex:index-1];
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    assert(sems != NULL);
+    assert(courses != NULL);
+    [sems setObject:courses forKey:currentSem];
+    //NSLog(@"Sems: %d", [sems count]);
+    [sems writeToFile:[appDelegate dataFilePath] atomically:YES];
+    //NSLog(@"S12: %d", [[[[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]] objectForKey:@"S12"] count]);
+    
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+    qpa = [self calculateQPAfromCourses:courses];
+    cumQpa = [self calculateCumQPA];
+    
+    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+  }  
+}
 
 /*
  // Override to support rearranging the table view.

@@ -14,15 +14,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  // Override point for customization after application launch.
-  courses = [[NSMutableArray alloc] initWithCapacity:10];
-  
-	UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-	CoursesViewController *coursesViewController = 
-  [[navigationController viewControllers] objectAtIndex:0];
-	coursesViewController.courses = courses;
+  [self copyPlistIfNeeded];
   
   return YES;
+}
+
+- (NSString *)dataFilePath {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	return [documentsDirectory stringByAppendingPathComponent:@"data.plist"];
+}
+
+- (void)copyPlistIfNeeded {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *plistPath = [self dataFilePath];
+	BOOL fileExists = [fileManager fileExistsAtPath:plistPath]; 
+	
+	if (!fileExists) {
+		NSString *defaultPlistPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"data.plist"];
+		[fileManager copyItemAtPath:defaultPlistPath toPath:plistPath error:nil];
+	}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

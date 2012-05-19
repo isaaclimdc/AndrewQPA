@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Course.h"
 #import "CoursesViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate> {
-  NSMutableArray *courses;
-}
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+- (NSString *)dataFilePath;
+- (void)copyPlistIfNeeded;
 
 @end
