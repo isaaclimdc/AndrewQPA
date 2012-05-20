@@ -38,7 +38,8 @@
 {
   season = @"Fall";
   [springButton setBackgroundImage:[UIImage imageNamed:@"spring.png"] forState:UIControlStateNormal];
-  [fallButton setBackgroundImage:[UIImage imageNamed:@"fall_down.png"] forState:UIControlStateNormal]; 
+  [fallButton setBackgroundImage:[UIImage imageNamed:@"fall_down.png"] forState:UIControlStateNormal];
+  self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (IBAction)spring:(id)sender
@@ -46,6 +47,7 @@
   season = @"Spring";
   [springButton setBackgroundImage:[UIImage imageNamed:@"spring_down.png"] forState:UIControlStateNormal];
   [fallButton setBackgroundImage:[UIImage imageNamed:@"fall.png"] forState:UIControlStateNormal];
+  self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (void)textViewDidChange:(UITextView *)textView
@@ -67,16 +69,12 @@
     springButton.alpha = 0.0;
     fallButton.alpha = 0.0;
     [UIView commitAnimations];
+    
+    season = nil;
+    [springButton setBackgroundImage:[UIImage imageNamed:@"spring.png"] forState:UIControlStateNormal];
+    [fallButton setBackgroundImage:[UIImage imageNamed:@"fall.png"] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
   }
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-  if (self) {
-    // Custom initialization
-  }
-  return self;
 }
 
 - (void)viewDidLoad
@@ -84,8 +82,11 @@
   [super viewDidLoad];
 	
   self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
+  
   springButton.alpha = 0.0;
   fallButton.alpha = 0.0;
+  self.navigationItem.rightBarButtonItem.enabled = NO;
   
   [yearField becomeFirstResponder];
 }

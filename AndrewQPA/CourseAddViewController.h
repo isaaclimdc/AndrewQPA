@@ -20,6 +20,7 @@
   UIView *step1;
   UIView *step2;
   UIView *step3;
+  UIView *summaryView;
   
   UITextView *nameField1;
   UITextView *nameField2;
@@ -40,6 +41,7 @@
 @property (nonatomic, retain) IBOutlet UIView *step1;
 @property (nonatomic, retain) IBOutlet UIView *step2;
 @property (nonatomic, retain) IBOutlet UIView *step3;
+@property (nonatomic, retain) IBOutlet UIView *summaryView;
 @property (nonatomic, retain) IBOutlet UITextView *nameField1;
 @property (nonatomic, retain) IBOutlet UITextView *nameField2;
 @property (nonatomic, retain) IBOutlet UITextView *unitsField;

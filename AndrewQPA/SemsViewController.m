@@ -72,6 +72,7 @@
   [super viewDidLoad];
   
   self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
   
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableArray alloc] initWithCapacity:10];
@@ -222,21 +223,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [self updateCheckmarkAtIndexPath:indexPath];
-  //  NSUInteger index = [indexPath row];
-  //  [[NSUserDefaults standardUserDefaults] setObject:[sems objectAtIndex:index] forKey:@"CurrentSem"];
-  //  
-  //  if (checkedIndexPath != NULL) {
-  //    NSIndexPath *old = checkedIndexPath;
-  //    checkedIndexPath = indexPath;
-  //    if (![old isEqual:checkedIndexPath])
-  //      [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:old, checkedIndexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-  //  }
-  //  else {
-  //    checkedIndexPath = indexPath;
-  //    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:checkedIndexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-  //  }
-  //  
-  //  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  [self dismiss:nil];
 }
 
 - (void)updateCheckmarkAtIndexPath:(NSIndexPath *)indexPath

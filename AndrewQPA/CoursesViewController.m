@@ -30,11 +30,9 @@
   
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   assert(sems != NULL);
-  //assert(courses != NULL);
+  
   [sems setObject:courses forKey:currentSem];
-  //NSLog(@"Sems: %d", [sems count]);
   [sems writeToFile:[appDelegate dataFilePath] atomically:YES];
-  //NSLog(@"2012_Spring: %d", [[[[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]] objectForKey:@"2012_Spring"] count]);
   
   NSIndexPath *indexPath = 
   [NSIndexPath indexPathForRow:[courses count] 
@@ -47,6 +45,11 @@
   cumQpa = [self calculateCumQPA];
   
   [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+  
+  CourseCell *cell = (CourseCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+  cell.unitsLabel.alpha = 1.0;
+  cell.unitsPostLabel.alpha = 1.0;
+  cell.gradeLabel.frame = CGRectMake(265, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
   
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -124,19 +127,27 @@
   V.clipsToBounds = NO;
 }
 
+- (void)showCredits
+{
+  NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"AndrewQPA v%@", appVersion] message:@"This app was created by Isaac Lim, a Sophomore in the School of Computer Science at Carnegie Mellon University. This app is meant as a non-profit tool for all Carnegie Mellon students.\n\nContact me at http://isaacl.net\n\n--\n\nCredits for photographs used:\n\nCMU Marketing Communications: \"Tartan Plaid\" (http://www.cmu.edu/marcom/brand-guidelines/wordmarks-colors-type.html)\n\nPittsburgh Post-Gazette: \"Gates-Hillman Center\" (http://old.post-gazette.com/pg/12010/1202524-53.stm)\n\nWikipedia: \"The Fence\" (http://en.wikipedia.org/wiki/File:The_Fence_at_Carnegie_Mellon_University.jpg), \"The Mall\" (http://en.wikipedia.org/wiki/File:The_Mall_Carnegie_Mellon.jpg)\n\nAl-Jamiat: \"Walking to the Sky\" (http://www.al-jamiat.com/college-lifestyle/20-colleges-universities-free-online-courses/)\n\nThese photographs are used in this app for non-commercial purposes." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
-  //[self addShadowToView:self.navigationController.navigationBar.layer];
-  
   self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
   [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
   
-  UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(120, 20, 80, 60)];
-  imgV.image = [UIImage imageNamed:@"barlogo.png"];
-  [self addShadowToView:imgV];
-  [self.navigationController.view addSubview:imgV];
+  UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(115, 20, 90, 60)];
+  [button setBackgroundImage:[UIImage imageNamed:@"barlogo.png"] forState:UIControlStateNormal];
+  [button setBackgroundImage:[UIImage imageNamed:@"barlogo_down.png"] forState:UIControlStateHighlighted];
+  [button addTarget:self action:@selector(showCredits) forControlEvents:UIControlEventTouchUpInside];
+  [self addShadowToView:button];
+  
+  [self.navigationController.view addSubview:button];
   
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableDictionary alloc] initWithCapacity:10];

@@ -17,7 +17,7 @@
 @synthesize step1, step2, step3;
 @synthesize delegate, nameField1, nameField2, unitsField;
 @synthesize gradeButtonA, gradeButtonB, gradeButtonC, gradeButtonD, gradeButtonR;
-@synthesize gradeStr;
+@synthesize gradeStr, summaryView;
 @synthesize saveButton, overviewCourse, overviewUnits;
 
 - (IBAction)cancel:(id)sender
@@ -46,6 +46,7 @@
   [UIView animateWithDuration:0.5 animations:^ {
     step2.frame = CGRectMake(-320, 0, step2.frame.size.width, step2.frame.size.height);
     step3.frame = CGRectMake(0, 0, step3.frame.size.width, step3.frame.size.height);
+    summaryView.frame = CGRectMake(0, 200, summaryView.frame.size.width, summaryView.frame.size.height);
   } completion:^(BOOL finished) {
     
   }];
@@ -84,51 +85,51 @@
 - (IBAction)gradeA:(id)sender
 {
   gradeStr = @"A";
-  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
-  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];  
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"selectA_down.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"selectB.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"selectC.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR.png"] forState:UIControlStateNormal];  
   saveButton.enabled = YES;
 }
 - (IBAction)gradeB:(id)sender
 {
   gradeStr = @"B";
-  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
-  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"selectA.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"selectB_down.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"selectC.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR.png"] forState:UIControlStateNormal];
   saveButton.enabled = YES;
 }
 - (IBAction)gradeC:(id)sender
 {
   gradeStr = @"C";
-  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
-  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"selectA.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"selectB.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"selectC_down.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR.png"] forState:UIControlStateNormal];
   saveButton.enabled = YES;
 }
 - (IBAction)gradeD:(id)sender
 {
   gradeStr = @"D";
-  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
-  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"selectA.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"selectB.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"selectC.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD_down.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR.png"] forState:UIControlStateNormal];
   saveButton.enabled = YES;
 }
 - (IBAction)gradeR:(id)sender
 {
   gradeStr = @"R";
-  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"B.png"] forState:UIControlStateNormal];
-  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
-  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"A.png"] forState:UIControlStateNormal];
+  [gradeButtonA setBackgroundImage:[UIImage imageNamed:@"selectA.png"] forState:UIControlStateNormal];
+  [gradeButtonB setBackgroundImage:[UIImage imageNamed:@"selectB.png"] forState:UIControlStateNormal];
+  [gradeButtonC setBackgroundImage:[UIImage imageNamed:@"selectC.png"] forState:UIControlStateNormal];
+  [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD.png"] forState:UIControlStateNormal];
+  [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR_down.png"] forState:UIControlStateNormal];
   saveButton.enabled = YES;
 }
 
@@ -145,10 +146,16 @@
 {
   [super viewDidLoad];
   
+  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
+  
   step1.frame = CGRectMake(0, 0, step1.frame.size.width, step1.frame.size.height);
   step2.frame = CGRectMake(320, 0, step2.frame.size.width, step2.frame.size.height);
   step3.frame = CGRectMake(640, 0, step3.frame.size.width, step3.frame.size.height);
+  summaryView.frame = CGRectMake(-320, 200, summaryView.frame.size.width, summaryView.frame.size.height);
+  
   saveButton.enabled = NO;
+  
   [nameField1 becomeFirstResponder];
 }
 
