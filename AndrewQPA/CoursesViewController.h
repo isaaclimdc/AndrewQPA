@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "CourseCell.h"
 #import "QPACell.h"
 #import "CourseAddViewController.h"

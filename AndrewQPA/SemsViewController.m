@@ -14,7 +14,7 @@
 
 @implementation SemsViewController
 
-@synthesize sems, mainDict, checkedIndexPath;
+@synthesize sems, mainDict, checkedIndexPath, emptyLabel;
 
 - (IBAction)dismiss:(id)sender
 {
@@ -71,6 +71,8 @@
 {
   [super viewDidLoad];
   
+  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableArray alloc] initWithCapacity:10];
   mainDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -81,6 +83,25 @@
   }
   
   checkedIndexPath = [NSIndexPath indexPathForRow:[sems indexOfObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentSem"]] inSection:0];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  
+  if ([sems count] == 0) {
+    emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 160, 250, 30)];
+    emptyLabel.text = @"Please add a new semester.";
+    emptyLabel.backgroundColor = [UIColor clearColor];
+    emptyLabel.textColor = [UIColor darkGrayColor];
+    emptyLabel.font = [UIFont systemFontOfSize:16];
+    emptyLabel.shadowColor = [UIColor whiteColor];
+    emptyLabel.shadowOffset = CGSizeMake(0, 1);
+    [self.tableView addSubview:emptyLabel];
+  }
+  else {
+    [emptyLabel removeFromSuperview];
+  }
 }
 
 - (void)viewDidUnload
@@ -107,6 +128,24 @@
 {
   // Return the number of rows in the section.
   return [sems count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  if ([sems count] == 0) {
+    return nil;
+  }
+	else {
+    return @"Select a semester to view grades.";
+  }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+  if ([sems count] == 0) {
+    return nil;
+  }
+	else {
+    return @"Grades for courses are recorded in individual semesters. Both the QPA for that semester, and the cumulative QPA are calculated.\n\nQPA is calculated by:\nTotal Quality Points / Total No. of Units";
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -147,13 +186,17 @@
     [mainDict writeToFile:[appDelegate dataFilePath] atomically:YES];
     
     [sems removeObjectAtIndex:index];
-     
+    
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
-    if (index > 0)
-      checkedIndexPath = [NSIndexPath indexPathForRow:index-1 inSection:0];
+    if (index > 0) {
+      checkedIndexPath = [NSIndexPath indexPathForRow:index-1 inSection:0];    
+      [self updateCheckmarkAtIndexPath:checkedIndexPath];
+    }
+    else {
+      [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"CurrentSem"];
+    }
     
-    [self updateCheckmarkAtIndexPath:checkedIndexPath];
     [self dismiss:nil];
   }  
 }
@@ -179,21 +222,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [self updateCheckmarkAtIndexPath:indexPath];
-//  NSUInteger index = [indexPath row];
-//  [[NSUserDefaults standardUserDefaults] setObject:[sems objectAtIndex:index] forKey:@"CurrentSem"];
-//  
-//  if (checkedIndexPath != NULL) {
-//    NSIndexPath *old = checkedIndexPath;
-//    checkedIndexPath = indexPath;
-//    if (![old isEqual:checkedIndexPath])
-//      [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:old, checkedIndexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-//  }
-//  else {
-//    checkedIndexPath = indexPath;
-//    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:checkedIndexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-//  }
-//  
-//  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  //  NSUInteger index = [indexPath row];
+  //  [[NSUserDefaults standardUserDefaults] setObject:[sems objectAtIndex:index] forKey:@"CurrentSem"];
+  //  
+  //  if (checkedIndexPath != NULL) {
+  //    NSIndexPath *old = checkedIndexPath;
+  //    checkedIndexPath = indexPath;
+  //    if (![old isEqual:checkedIndexPath])
+  //      [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:old, checkedIndexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+  //  }
+  //  else {
+  //    checkedIndexPath = indexPath;
+  //    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:checkedIndexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+  //  }
+  //  
+  //  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)updateCheckmarkAtIndexPath:(NSIndexPath *)indexPath

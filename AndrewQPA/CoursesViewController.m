@@ -115,9 +115,28 @@
   return (float)cumQualityPoints / (float)cumUnits;
 }
 
+- (void)addShadowToView:(UIView *)V
+{
+  V.layer.shadowColor = [UIColor blackColor].CGColor;
+  V.layer.shadowOffset = CGSizeMake(0, 3);
+  V.layer.shadowOpacity = 0.6;
+  V.layer.shadowRadius = 1.0;
+  V.clipsToBounds = NO;
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
+  //[self addShadowToView:self.navigationController.navigationBar.layer];
+  
+  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
+  
+  UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(120, 20, 80, 60)];
+  imgV.image = [UIImage imageNamed:@"barlogo.png"];
+  [self addShadowToView:imgV];
+  [self.navigationController.view addSubview:imgV];
   
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -131,10 +150,10 @@
   [super viewWillAppear:animated];
   
   currentSem = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentSem"];
-  NSLog(@"%@", currentSem);
+  //NSLog(@"%@", currentSem);
   if (currentSem == NULL) {
     addCourseButton.enabled = NO;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Andrew QPA!" message:@"Please tap on the top left button to add a semester." delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to AndrewQPA!" message:@"Please tap on the top left button to add a semester." delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
     [alert show];
   }
   else {
@@ -178,7 +197,7 @@
   NSUInteger index = [indexPath row];
   
   if ([self.courses count] != 0 && index == 0)
-    return 90;
+    return 100;
   else
     return 55;
 }
@@ -246,6 +265,30 @@
     
     [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
   }  
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  CourseCell *cell = (CourseCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [UIView beginAnimations:nil context:nil];
+  [UIView setAnimationDuration:0.3];
+  [UIView setAnimationBeginsFromCurrentState:YES];
+	cell.unitsLabel.alpha = 0.0;
+  cell.unitsPostLabel.alpha = 0.0;
+  cell.gradeLabel.frame = CGRectMake(200, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
+  [UIView commitAnimations];
+}
+
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  CourseCell *cell = (CourseCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [UIView beginAnimations:nil context:nil];
+  [UIView setAnimationDuration:0.3];
+  [UIView setAnimationBeginsFromCurrentState:YES];
+	cell.unitsLabel.alpha = 1.0;
+  cell.unitsPostLabel.alpha = 1.0;
+  cell.gradeLabel.frame = CGRectMake(265, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
+  [UIView commitAnimations];
 }
 
 /*

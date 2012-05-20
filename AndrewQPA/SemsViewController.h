@@ -14,11 +14,13 @@
   NSMutableArray *sems;
   NSMutableDictionary *mainDict;
   NSIndexPath *checkedIndexPath;
+  UILabel *emptyLabel;
 }
 
 @property (nonatomic, retain) NSMutableArray *sems;
 @property (nonatomic, retain) NSMutableDictionary *mainDict;
 @property (nonatomic, retain) NSIndexPath *checkedIndexPath;
+@property (nonatomic, retain) UILabel *emptyLabel;
 
 - (IBAction)dismiss:(id)sender;
 
