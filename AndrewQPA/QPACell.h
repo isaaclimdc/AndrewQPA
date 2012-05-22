@@ -10,9 +10,6 @@
 
 @interface QPACell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UILabel *label;
-@property (nonatomic, strong) IBOutlet UILabel *qpaLabel;
-@property (nonatomic, strong) IBOutlet UILabel *label2;
-@property (nonatomic, strong) IBOutlet UILabel *cumQpaLabel;
+@property (nonatomic, strong) IBOutlet UILabel *sem;
 
 @end

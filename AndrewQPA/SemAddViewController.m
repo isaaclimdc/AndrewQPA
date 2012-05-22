@@ -52,6 +52,9 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
+  if (textView.text.length <= 2)
+    textView.text = @"20";
+  
   if (textView.text.length >= 4) {
     textView.text = [textView.text substringToIndex:4];
     

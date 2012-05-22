@@ -13,6 +13,7 @@
 #import "CourseAddViewController.h"
 #import "SemsViewController.h"
 #import "AppDelegate.h"
+#import "QPADrawer.h"
 
 @interface CoursesViewController : UITableViewController <CourseAddViewControllerDelegate> {
   NSMutableArray *courses;
@@ -21,6 +22,11 @@
   UIBarButtonItem *addCourseButton;
   float qpa;
   float cumQpa;
+  UIImageView *addTip1;
+  UIImageView *addTip2;
+  
+  QPADrawer *qpaDrawer;
+  bool drawerOpen;
 }
 
 @property (nonatomic, retain) NSMutableArray *courses;
@@ -29,5 +35,8 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *addCourseButton;
 @property (nonatomic) float qpa;
 @property (nonatomic) float cumQpa;
+@property (nonatomic, retain) UIImageView *addTip1;
+@property (nonatomic, retain) UIImageView *addTip2;
+@property (nonatomic, retain) QPADrawer *qpaDrawer;
 
 @end

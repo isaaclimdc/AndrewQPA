@@ -14,7 +14,7 @@
 
 @implementation CoursesViewController
 
-@synthesize courses, sems, currentSem, addCourseButton, qpa, cumQpa;
+@synthesize courses, sems, currentSem, addCourseButton, qpa, cumQpa, addTip1, addTip2, qpaDrawer;
 
 - (void)courseAddViewControllerDidCancel:
 (CourseAddViewController *)controller
@@ -26,7 +26,6 @@
                    didAddCourse:(NSMutableDictionary *)course
 {
   [courses addObject:course];
-  //NSLog(@"Courses length: %d", [courses count]);
   
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   assert(sems != NULL);
@@ -41,8 +40,7 @@
    [NSArray arrayWithObject:indexPath] 
                         withRowAnimation:UITableViewRowAnimationAutomatic];
   
-  qpa = [self calculateQPAfromCourses:courses];
-  cumQpa = [self calculateCumQPA];
+  [self updateQPADrawer];
   
   [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
   
@@ -63,6 +61,8 @@
 		courseAddViewController.delegate = self;
 	}
 }
+
+#pragma mark - QPA Methods
 
 - (int)calculateQualityPointsfromCourses:(NSMutableArray *)c
 {
@@ -100,23 +100,87 @@
 
 - (float)calculateQPAfromCourses:(NSMutableArray *)c
 {
-  return (float)[self calculateQualityPointsfromCourses:c] / (float)[self calculateUnitsfromCourses:c];
+  if ([self calculateUnitsfromCourses:c] == 0)
+    return -1;
+  else
+    return (float)[self calculateQualityPointsfromCourses:c] / (float)[self calculateUnitsfromCourses:c];
 }
 
-- (float)calculateCumQPA
+- (int)calculateCumQualityPoints
 {
   int cumQualityPoints = 0;
-  int cumUnits = 0;
-  
   NSArray *keys = [sems allKeys];
   for (NSString *str in keys) {
     NSMutableArray *c = [sems objectForKey:str];
     cumQualityPoints += [self calculateQualityPointsfromCourses:c];
+  }
+  
+  return cumQualityPoints;
+}
+
+- (int)calculateCumUnits
+{
+  int cumUnits = 0;
+  NSArray *keys = [sems allKeys];
+  for (NSString *str in keys) {
+    NSMutableArray *c = [sems objectForKey:str];
     cumUnits += [self calculateUnitsfromCourses:c];
   }
   
-  return (float)cumQualityPoints / (float)cumUnits;
+  return cumUnits;
 }
+
+- (float)calculateCumQPA
+{
+  if ([self calculateCumUnits] == 0)
+    return -1;
+  else
+    return (float)[self calculateCumQualityPoints] / (float)[self calculateCumUnits];
+}
+
+- (IBAction)showHideQPADrawer:(id)sender
+{
+  NSUInteger y;
+  NSString *img;
+  NSString *img_down;
+  
+  if (drawerOpen) {
+    y = 480 - qpaDrawer.toolbar.frame.size.height;
+    img = @"toolbar.png";
+    img_down = @"toolbar_down.png";
+  }
+  else {
+    y = 480 - qpaDrawer.frame.size.height;
+    img = @"toolbar2.png";
+    img_down = @"toolbar2_down.png";
+  }
+  
+  [qpaDrawer.toolbar setBackgroundImage:[UIImage imageNamed:img] forState:UIControlStateNormal];
+  [qpaDrawer.toolbar setBackgroundImage:[UIImage imageNamed:img_down] forState:UIControlStateHighlighted];
+  
+  [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseInOut animations:^ {
+    qpaDrawer.frame = CGRectMake(0, y, qpaDrawer.frame.size.width, qpaDrawer.frame.size.height);
+  } completion:^(BOOL finished) {
+    drawerOpen = !drawerOpen;
+  }];
+}
+
+- (void)updateQPADrawer
+{
+  qpa = [self calculateQPAfromCourses:courses];
+  cumQpa = [self calculateCumQPA];
+  
+  qpaDrawer.label1.text = (currentSem == nil ? @"QPA:" : [NSString stringWithFormat:@"%@ QPA:", currentSem]);
+  qpaDrawer.label2.text = (currentSem == nil ? @"Units:" : [NSString stringWithFormat:@"%@ Units:", currentSem]);
+  
+  qpaDrawer.qpaLabel.text = (qpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", qpa]);
+  qpaDrawer.unitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateUnitsfromCourses:courses]];
+  qpaDrawer.cumQPALabel.text = (cumQpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", cumQpa]);
+  qpaDrawer.cumUnitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateCumUnits]];
+}
+
+
+#pragma mark - View methods
 
 - (void)addShadowToView:(UIView *)V
 {
@@ -130,7 +194,7 @@
 - (void)showCredits
 {
   NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"AndrewQPA v%@", appVersion] message:@"This app was created by Isaac Lim, a Sophomore in the School of Computer Science at Carnegie Mellon University. This app is meant as a non-profit tool for all Carnegie Mellon students.\n\nContact me at http://isaacl.net\n\n--\n\nCredits for photographs used:\n\nCMU Marketing Communications: \"Tartan Plaid\" (http://www.cmu.edu/marcom/brand-guidelines/wordmarks-colors-type.html)\n\nPittsburgh Post-Gazette: \"Gates-Hillman Center\" (http://old.post-gazette.com/pg/12010/1202524-53.stm)\n\nWikipedia: \"The Fence\" (http://en.wikipedia.org/wiki/File:The_Fence_at_Carnegie_Mellon_University.jpg), \"The Mall\" (http://en.wikipedia.org/wiki/File:The_Mall_Carnegie_Mellon.jpg)\n\nAl-Jamiat: \"Walking to the Sky\" (http://www.al-jamiat.com/college-lifestyle/20-colleges-universities-free-online-courses/)\n\nThese photographs are used in this app for non-commercial purposes." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"AndrewQPA v%@", appVersion] message:@"This app was created by Isaac Lim, a Sophomore in the School of Computer Science at Carnegie Mellon University. This app is meant as a non-profit tool for all Carnegie Mellon students.\n\nContact me at http://isaacl.net\n\n--\n\nCredits for photographs used:\n\nCMU Marketing Communications: \"Tartan Plaid\" (http://www.cmu.edu/marcom/brand-guidelines/wordmarks-colors-type.html)\n\nCollege Financial Aid Guide: \"CMU Campus\" (http://www.collegefinancialaidguide.com/pennsylvania-carnegiemellonuniversity-38-243.html)\n\nPittsburgh Post-Gazette: \"Gates-Hillman Center\" (http://old.post-gazette.com/pg/12010/1202524-53.stm)\n\nWikipedia: \"The Fence\" (http://en.wikipedia.org/wiki/File:The_Fence_at_Carnegie_Mellon_University.jpg), \"The Mall\" (http://en.wikipedia.org/wiki/File:The_Mall_Carnegie_Mellon.jpg)\n\nAl-Jamiat: \"Walking to the Sky\" (http://www.al-jamiat.com/college-lifestyle/20-colleges-universities-free-online-courses/)\n\nThese photographs are used in this app for non-commercial purposes." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alert show];
 }
 
@@ -138,6 +202,7 @@
 {
   [super viewDidLoad];
   
+  // UINavigationBar
   self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
   [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
   
@@ -149,6 +214,29 @@
   
   [self.navigationController.view addSubview:button];
   
+  
+  // QPA Drawer
+  qpaDrawer = [[QPADrawer alloc] initWithFrame:CGRectMake(0, 436, 320, 194)];
+  
+  [qpaDrawer.toolbar addTarget:self action:@selector(showHideQPADrawer:) forControlEvents:UIControlEventTouchUpInside];
+  
+  qpaDrawer.layer.shadowColor = [[UIColor blackColor] CGColor];
+  qpaDrawer.layer.shadowOffset = CGSizeMake(0, -qpaDrawer.toolbar.frame.size.height + 3);
+  qpaDrawer.layer.shadowOpacity = 0.7;
+  qpaDrawer.layer.masksToBounds = NO;
+  CGRect shadowPath = CGRectMake(qpaDrawer.layer.bounds.origin.x - 10, qpaDrawer.toolbar.layer.bounds.size.height - 6, qpaDrawer.layer.bounds.size.width + 20, 5);
+  qpaDrawer.layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPath].CGPath;
+  
+  [self.navigationController.view addSubview:qpaDrawer];
+  
+  
+  // UITableView Background
+  UIImageView *rootbkg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
+  rootbkg.image = [UIImage imageNamed:@"rootbkg.png"];
+  self.tableView.backgroundView = rootbkg;
+  
+  
+  //Initializing Course Data
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableDictionary alloc] initWithCapacity:10];
   NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]];
@@ -161,21 +249,59 @@
   [super viewWillAppear:animated];
   
   currentSem = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentSem"];
-  //NSLog(@"%@", currentSem);
   if (currentSem == NULL) {
     addCourseButton.enabled = NO;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to AndrewQPA!" message:@"Please tap on the top left button to add a semester." delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
-    [alert show];
+    
+    addTip1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 65, 160, 53)];
+    addTip1.image = [UIImage imageNamed:@"addTip1.png"];
+    addTip1.alpha = 0.0;
+    [self.navigationController.view addSubview:addTip1];
+    [UIView animateWithDuration:1.5 delay:1.0 options:UIViewAnimationCurveEaseIn animations:^ {
+      addTip1.alpha = 1.0;
+    } completion:^(BOOL finished) {
+      
+    }];
   }
   else {
     addCourseButton.enabled = YES;
+    
+    [UIView animateWithDuration:0.5 animations:^ {
+      addTip1.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      [addTip1 removeFromSuperview];
+    }];
   }
   
   courses = [[NSMutableArray alloc] initWithArray:[sems objectForKey:currentSem]];
-  qpa = [self calculateQPAfromCourses:courses];
-  cumQpa = [self calculateCumQPA];
+  if (courses.count == 0 && addCourseButton.enabled) {
+    addTip2 = [[UIImageView alloc] initWithFrame:CGRectMake(145, 65, 160, 53)];
+    addTip2.image = [UIImage imageNamed:@"addTip2.png"];
+    addTip2.alpha = 0.0;
+    [self.navigationController.view addSubview:addTip2];
+    [UIView animateWithDuration:1.5 delay:1.0 options:UIViewAnimationCurveEaseIn animations:^ {
+      addTip2.alpha = 1.0;
+    } completion:^(BOOL finished) {
+      
+    }];
+  }
+  else {
+    [UIView animateWithDuration:0.5 animations:^ {
+      addTip2.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      [addTip2 removeFromSuperview];
+    }];
+  }
+  
+  [self updateQPADrawer];
   
   [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+  //[super viewWillDisappear:animated];
+  if (drawerOpen)
+    [self showHideQPADrawer:nil];
 }
 
 - (void)viewDidUnload
@@ -201,14 +327,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
   // Return the number of rows in the section.
-  return [self.courses count] + 1;
+  return courses.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSUInteger index = [indexPath row];
   
-  if ([self.courses count] != 0 && index == 0)
-    return 100;
+  if (courses.count != 0 && index == 0)
+    return 70;
   else
     return 55;
 }
@@ -221,13 +347,8 @@
     QPACell *cell = (QPACell *)[tableView dequeueReusableCellWithIdentifier:@"QPACell"];
     BOOL hide = ([courses count] == 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.label.text = [NSString stringWithFormat:@"Your %@ QPA is:", currentSem];
-    cell.label.hidden = hide;
-    cell.qpaLabel.text = [NSString stringWithFormat:@"%.2f", qpa];
-    cell.qpaLabel.hidden = hide;
-    cell.label2.hidden = hide;
-    cell.cumQpaLabel.text = [NSString stringWithFormat:@"%.2f", cumQpa];
-    cell.cumQpaLabel.hidden = hide;
+    cell.sem.text = currentSem;
+    cell.sem.hidden = hide;
     
     return cell;
   }
@@ -238,6 +359,14 @@
     cell.nameLabel.text = [course objectForKey:@"name"];
     cell.unitsLabel.text = [course objectForKey:@"units"];
     cell.gradeLabel.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [course objectForKey:@"grade"]]];
+    if (index % 2 != 0)
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row1.png"]];
+    else
+      cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row2.png"]];
+
+//    SLOWS APP DOWN!
+//    if (index == courses.count)
+//      [self addShadowToView:cell.backgroundView];
     return cell;
   }
 }
@@ -265,16 +394,28 @@
     assert(sems != NULL);
     assert(courses != NULL);
     [sems setObject:courses forKey:currentSem];
-    //NSLog(@"Sems: %d", [sems count]);
     [sems writeToFile:[appDelegate dataFilePath] atomically:YES];
-    //NSLog(@"S12: %d", [[[[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]] objectForKey:@"S12"] count]);
     
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
-    qpa = [self calculateQPAfromCourses:courses];
-    cumQpa = [self calculateCumQPA];
+    [self updateQPADrawer];
     
-    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    if (courses.count == 0) {
+      [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+      
+      addTip2 = [[UIImageView alloc] initWithFrame:CGRectMake(145, 65, 160, 53)];
+      addTip2.image = [UIImage imageNamed:@"addTip2.png"];
+      addTip2.alpha = 0.0;
+      [self.navigationController.view addSubview:addTip2];
+      [UIView animateWithDuration:1.5 delay:1.0 options:UIViewAnimationCurveEaseIn animations:^ {
+        addTip2.alpha = 1.0;
+      } completion:^(BOOL finished) {
+        
+      }];
+    }
+    else {
+      [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:courses.count inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+    }
   }  
 }
 

@@ -69,9 +69,11 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-  if (nameField1.text.length == 2)
+  if (nameField1.text.length >= 2) {
+    nameField1.text = [nameField1.text substringToIndex:2];
     [nameField2 becomeFirstResponder];
-  if (nameField2.text.length == 3)
+  }
+  if (nameField2.text.length >= 3)
     [self toStep2:nil];
   if ([unitsField.text isEqualToString:@"0"]) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter a nonzero number of units!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -131,15 +133,6 @@
   [gradeButtonD setBackgroundImage:[UIImage imageNamed:@"selectD.png"] forState:UIControlStateNormal];
   [gradeButtonR setBackgroundImage:[UIImage imageNamed:@"selectR_down.png"] forState:UIControlStateNormal];
   saveButton.enabled = YES;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-  if (self) {
-    // Custom initialization
-  }
-  return self;
 }
 
 - (void)viewDidLoad

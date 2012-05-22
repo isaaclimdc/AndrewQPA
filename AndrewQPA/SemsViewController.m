@@ -90,7 +90,7 @@
 {
   [super viewWillAppear:animated];
   
-  if ([sems count] == 0) {
+  if (sems.count == 0) {
     emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 160, 250, 30)];
     emptyLabel.text = @"Please add a new semester.";
     emptyLabel.backgroundColor = [UIColor clearColor];
@@ -188,13 +188,15 @@
     
     [sems removeObjectAtIndex:index];
     
-    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
-    if (index > 0) {
-      checkedIndexPath = [NSIndexPath indexPathForRow:index-1 inSection:0];    
+    if (sems.count > 0) {
+      checkedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
       [self updateCheckmarkAtIndexPath:checkedIndexPath];
+      NSLog(@"HERE!");
     }
     else {
+      NSLog(@"HAAAH");
       [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"CurrentSem"];
     }
     
