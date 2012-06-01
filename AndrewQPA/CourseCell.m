@@ -25,7 +25,8 @@
 {
   [super setSelected:selected animated:animated];
   
-  // Configure the view for the selected state
+  //nameLabel.textColor = [UIColor blackColor];
+  //unitsLabel.textColor = [UIColor blackColor];
 }
 
 @end

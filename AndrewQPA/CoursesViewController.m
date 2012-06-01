@@ -193,9 +193,8 @@
 
 - (void)showCredits
 {
-  NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"AndrewQPA v%@", appVersion] message:@"This app was created by Isaac Lim, a Sophomore in the School of Computer Science at Carnegie Mellon University. This app is meant as a non-profit tool for all Carnegie Mellon students.\n\nContact me at http://isaacl.net\n\n--\n\nCredits for photographs used:\n\nCMU Marketing Communications: \"Tartan Plaid\" (http://www.cmu.edu/marcom/brand-guidelines/wordmarks-colors-type.html)\n\nCollege Financial Aid Guide: \"CMU Campus\" (http://www.collegefinancialaidguide.com/pennsylvania-carnegiemellonuniversity-38-243.html)\n\nPittsburgh Post-Gazette: \"Gates-Hillman Center\" (http://old.post-gazette.com/pg/12010/1202524-53.stm)\n\nWikipedia: \"The Fence\" (http://en.wikipedia.org/wiki/File:The_Fence_at_Carnegie_Mellon_University.jpg), \"The Mall\" (http://en.wikipedia.org/wiki/File:The_Mall_Carnegie_Mellon.jpg)\n\nAl-Jamiat: \"Walking to the Sky\" (http://www.al-jamiat.com/college-lifestyle/20-colleges-universities-free-online-courses/)\n\nThese photographs are used in this app for non-commercial purposes." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
+  CreditsViewController *creditsViewController = [[CreditsViewController alloc] initWithNibName:@"CreditsViewController" bundle:nil];
+  [self presentModalViewController:creditsViewController animated:YES];
 }
 
 - (void)viewDidLoad
@@ -234,7 +233,11 @@
   UIImageView *rootbkg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
   rootbkg.image = [UIImage imageNamed:@"rootbkg.png"];
   self.tableView.backgroundView = rootbkg;
-  
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
   
   //Initializing Course Data
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -242,11 +245,6 @@
   NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:[appDelegate dataFilePath]];
   if ([dict count] != 0)
     sems = dict;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
   
   currentSem = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentSem"];
   if (currentSem == NULL) {
@@ -304,11 +302,12 @@
     [self showHideQPADrawer:nil];
 }
 
-- (void)viewDidUnload
+- (void)viewDidDisappear:(BOOL)animated
 {
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
+  [super viewDidDisappear:animated];
+  
+  [addTip1 removeFromSuperview];
+  [addTip2 removeFromSuperview];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -355,18 +354,28 @@
   else {
     CourseCell *cell = (CourseCell *)[tableView dequeueReusableCellWithIdentifier:@"CourseCell"];
     NSMutableDictionary *course = [courses objectAtIndex:index-1];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.nameLabel.text = [course objectForKey:@"name"];
     cell.unitsLabel.text = [course objectForKey:@"units"];
     cell.gradeLabel.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [course objectForKey:@"grade"]]];
-    if (index % 2 != 0)
+    
+    if (index % 2 != 0) {
       cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row1.png"]];
-    else
+      cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row1_selected.png"]];
+    }
+    else {
       cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row2.png"]];
-
-//    SLOWS APP DOWN!
-//    if (index == courses.count)
-//      [self addShadowToView:cell.backgroundView];
+      cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"row2_selected.png"]];
+    }
+    
+    // Workaround a positioning bug after deleting a row in another semester
+    cell.gradeLabel.frame = CGRectMake(265, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
+    cell.unitsLabel.alpha = 1.0;
+    cell.unitsPostLabel.alpha = 1.0;
+    
+    //    SLOWS APP DOWN!
+    //    if (index == courses.count)
+    //      [self addShadowToView:cell.backgroundView];
     return cell;
   }
 }
@@ -427,7 +436,7 @@
   [UIView setAnimationBeginsFromCurrentState:YES];
 	cell.unitsLabel.alpha = 0.0;
   cell.unitsPostLabel.alpha = 0.0;
-  cell.gradeLabel.frame = CGRectMake(200, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
+  cell.gradeLabel.frame = CGRectMake(140, 0, cell.gradeLabel.frame.size.width, cell.gradeLabel.frame.size.height);
   [UIView commitAnimations];
 }
 
@@ -463,13 +472,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  // Navigation logic may go here. Create and push another view controller.
-  /*
-   <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-   // ...
-   // Pass the selected object to the new view controller.
-   [self.navigationController pushViewController:detailViewController animated:YES];
-   */
+  if (indexPath.row != 0) {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    EditView *editView = [[EditView alloc] initWithFrame:CGRectMake(0, 20, 320, 460)];
+    editView.alpha = 0.0;
+    editView.selectedRow = indexPath;
+    [self.navigationController.view addSubview:editView];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    
+    editView.alpha = 1.0;
+    
+    [UIView commitAnimations];
+  }
 }
 
 @end

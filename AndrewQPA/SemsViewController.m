@@ -145,7 +145,7 @@
     return nil;
   }
 	else {
-    return @"Grades for courses are recorded in individual semesters. Both the QPA for that semester, and the cumulative QPA are calculated.\n\nQPA is calculated by:\nTotal Quality Points / Total No. of Units";
+    return @"Grades for courses are recorded in individual semesters. Both the QPA for that semester, and the cumulative QPA are calculated.\n\nNote: To delete a course or semester, swipe horizontally across the row.";
   }
 }
 
@@ -193,10 +193,8 @@
     if (sems.count > 0) {
       checkedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
       [self updateCheckmarkAtIndexPath:checkedIndexPath];
-      NSLog(@"HERE!");
     }
     else {
-      NSLog(@"HAAAH");
       [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"CurrentSem"];
     }
     

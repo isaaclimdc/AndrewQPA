@@ -67,25 +67,25 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="23"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="xPg-Gp-9Zz">
                                             <rect key="frame" x="146" y="15" width="40" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6Jo-aj-2JA">
                                             <rect key="frame" x="265" y="0.0" width="69" height="55"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="units" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="7Ir-7d-k47">
                                             <rect key="frame" x="180" y="15" width="40" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Optima-Regular" family="Optima" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -528,6 +528,76 @@
         <image name="step3bottom.png" width="320" height="216"/>
         <image name="step3top.png" width="320" height="200"/>
     </resources>
+    <classes>
+        <class className="CourseAddViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CourseAddViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="gradeA:"/>
+                <relationship kind="action" name="gradeB:"/>
+                <relationship kind="action" name="gradeC:"/>
+                <relationship kind="action" name="gradeD:"/>
+                <relationship kind="action" name="gradeR:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="toStep2:"/>
+                <relationship kind="action" name="toStep3:"/>
+                <relationship kind="outlet" name="gradeButtonA" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gradeButtonB" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gradeButtonC" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gradeButtonD" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gradeButtonR" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameField1" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="nameField2" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="overviewCourse" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="overviewUnits" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="step1" candidateClass="UIView"/>
+                <relationship kind="outlet" name="step2" candidateClass="UIView"/>
+                <relationship kind="outlet" name="step3" candidateClass="UIView"/>
+                <relationship kind="outlet" name="summaryView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="unitsField" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="CourseCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CourseCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="gradeLabel" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="unitsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="unitsPostLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="CoursesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoursesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addCourseButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="QPACell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/QPACell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="sem" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SemAddViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SemAddViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="fall:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="spring:"/>
+                <relationship kind="outlet" name="fallButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="springButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="yearField" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="SemsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SemsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="dismiss:"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

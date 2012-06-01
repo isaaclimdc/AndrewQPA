@@ -42,6 +42,9 @@
   CGRect shadowPath = CGRectMake(self.layer.bounds.origin.x - 10, self.layer.bounds.size.height - 6, self.layer.bounds.size.width + 20, 5);
   self.layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPath].CGPath;
   self.layer.shouldRasterize = YES;
+  
+  self.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Optima-Bold" size:22.0] forKey:UITextAttributeFont];
+
 }
 
 @end
