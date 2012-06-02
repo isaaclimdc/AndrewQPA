@@ -14,7 +14,7 @@
 
 @implementation CreditsViewController
 
-@synthesize navigationBar, bibTV;
+@synthesize version;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,20 +25,11 @@
   return self;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-  [super viewDidLoad];
+  [super viewWillAppear:animated];
   
-  navigationBar.topItem.title = [NSString stringWithFormat:@"AndrewQPA v%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
-  navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-  [navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
-  
-  [bibTV flashScrollIndicators];
-}
-
-- (IBAction)dismiss:(id)sender
-{
-  [self dismissModalViewControllerAnimated:YES];
+  version.text = [NSString stringWithFormat:@"AndrewQPA v%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
 
 - (void)viewDidUnload

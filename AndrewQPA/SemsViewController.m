@@ -71,9 +71,6 @@
 {
   [super viewDidLoad];
   
-  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
-  
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   sems = [[NSMutableArray alloc] initWithCapacity:10];
   mainDict = [[NSMutableDictionary alloc] initWithCapacity:10];

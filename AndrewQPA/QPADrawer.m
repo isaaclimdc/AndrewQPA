@@ -10,7 +10,7 @@
 
 @implementation QPADrawer
 
-@synthesize toolbar;
+@synthesize toolbar, settings;
 @synthesize label1, label2, label3, label4, qpaLabel, unitsLabel, cumQPALabel, cumUnitsLabel;
 
 - (id)initWithFrame:(CGRect)frame

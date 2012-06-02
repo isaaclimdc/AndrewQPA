@@ -83,9 +83,6 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-	
-  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
   
   springButton.alpha = 0.0;
   fallButton.alpha = 0.0;

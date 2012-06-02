@@ -26,8 +26,8 @@
 
 - (IBAction)dismiss
 {
-  [UIView animateWithDuration:0.3 animations:^ {
-    self.alpha = 0.0;
+  [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^ {
+    self.center = CGPointMake(160, -240);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
     
@@ -48,7 +48,7 @@
       
       [coursesViewController.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:selectedRow] withRowAnimation:UITableViewRowAnimationRight];
       
-      [coursesViewController updateQPADrawer];
+      [coursesViewController updateQPADrawerWithChange:YES];
     }
   }];
 }

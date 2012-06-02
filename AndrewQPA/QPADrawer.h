@@ -10,6 +10,7 @@
 
 @interface QPADrawer : UIView {
   UIButton *toolbar;
+  UIButton *settings;
   
   UILabel *label1;
   UILabel *label2;
@@ -22,6 +23,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *toolbar;
+@property (nonatomic, retain) IBOutlet UIButton *settings;
 
 @property (nonatomic, retain) IBOutlet UILabel *label1;
 @property (nonatomic, retain) IBOutlet UILabel *label2;

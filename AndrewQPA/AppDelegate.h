@@ -34,6 +34,9 @@
 }
 
 - (void)applyDefaultStyle {
+  self.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+  [self setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
+  
   // add the drop shadow
   self.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.layer.shadowOffset = CGSizeMake(0, 3);
@@ -44,7 +47,6 @@
   self.layer.shouldRasterize = YES;
   
   self.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Optima-Bold" size:22.0] forKey:UITextAttributeFont];
-
 }
 
 @end

@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "QPADrawer.h"
 #import "EditView.h"
-#import "CreditsViewController.h"
+#import "SettingsViewController.h"
 
 @interface CoursesViewController : UITableViewController <CourseAddViewControllerDelegate> {
   NSMutableArray *courses;
@@ -41,6 +41,6 @@
 @property (nonatomic, retain) UIImageView *addTip2;
 @property (nonatomic, retain) QPADrawer *qpaDrawer;
 
-- (void)updateQPADrawer;
+- (void)updateQPADrawerWithChange:(BOOL)change;
 
 @end

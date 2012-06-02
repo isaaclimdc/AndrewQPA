@@ -40,7 +40,7 @@
    [NSArray arrayWithObject:indexPath] 
                         withRowAnimation:UITableViewRowAnimationAutomatic];
   
-  [self updateQPADrawer];
+  [self updateQPADrawerWithChange:YES];
   
   [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
   
@@ -165,18 +165,32 @@
   }];
 }
 
-- (void)updateQPADrawer
+- (void)updateQPADrawerWithChange:(BOOL)change
 {
-  qpa = [self calculateQPAfromCourses:courses];
-  cumQpa = [self calculateCumQPA];
-  
-  qpaDrawer.label1.text = (currentSem == nil ? @"QPA:" : [NSString stringWithFormat:@"%@ QPA:", currentSem]);
-  qpaDrawer.label2.text = (currentSem == nil ? @"Units:" : [NSString stringWithFormat:@"%@ Units:", currentSem]);
-  
-  qpaDrawer.qpaLabel.text = (qpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", qpa]);
-  qpaDrawer.unitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateUnitsfromCourses:courses]];
-  qpaDrawer.cumQPALabel.text = (cumQpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", cumQpa]);
-  qpaDrawer.cumUnitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateCumUnits]];
+  [UIView animateWithDuration:0.5 animations:^ {
+    if (change)
+      qpaDrawer.qpaLabel.alpha = 0.0;
+  } completion:^(BOOL finished) {
+    qpa = [self calculateQPAfromCourses:courses];
+    cumQpa = [self calculateCumQPA];
+    
+    //qpaDrawer.label1.text = (currentSem == nil ? @"QPA:" : [NSString stringWithFormat:@"%@ QPA:", currentSem]);
+    qpaDrawer.label2.text = (currentSem == nil ? @"Units:" : [NSString stringWithFormat:@"%@ Units:", currentSem]);
+    
+    qpaDrawer.qpaLabel.text = (qpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", qpa]);
+    qpaDrawer.unitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateUnitsfromCourses:courses]];
+    qpaDrawer.cumQPALabel.text = (cumQpa == -1 ? @"0.00" : [NSString stringWithFormat:@"%.2f", cumQpa]);
+    qpaDrawer.cumUnitsLabel.text = [NSString stringWithFormat:@"%d", [self calculateCumUnits]];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    
+    qpaDrawer.qpaLabel.alpha = 1.0;
+    
+    [UIView commitAnimations];
+  }];
 }
 
 
@@ -191,33 +205,31 @@
   V.clipsToBounds = NO;
 }
 
-- (void)showCredits
+- (IBAction)showSettings:(id)sender
 {
-  CreditsViewController *creditsViewController = [[CreditsViewController alloc] initWithNibName:@"CreditsViewController" bundle:nil];
-  [self presentModalViewController:creditsViewController animated:YES];
+  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsStoryboard" bundle:nil];
+  UIViewController *settingsViewController = [storyboard instantiateInitialViewController];
+  
+  settingsViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+  [self presentModalViewController:settingsViewController animated:YES];
 }
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
-  // UINavigationBar
-  self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
-  
-  UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(115, 20, 90, 60)];
-  [button setBackgroundImage:[UIImage imageNamed:@"barlogo.png"] forState:UIControlStateNormal];
-  [button setBackgroundImage:[UIImage imageNamed:@"barlogo_down.png"] forState:UIControlStateHighlighted];
-  [button addTarget:self action:@selector(showCredits) forControlEvents:UIControlEventTouchUpInside];
-  [self addShadowToView:button];
-  
-  [self.navigationController.view addSubview:button];
+  // Bar Logo
+  UIImageView *barLogo = [[UIImageView alloc] initWithFrame:CGRectMake(115, 20, 90, 60)];
+  barLogo.image = [UIImage imageNamed:@"barlogo.png"];
+  [self addShadowToView:barLogo];
+  [self.navigationController.view addSubview:barLogo];
   
   
   // QPA Drawer
   qpaDrawer = [[QPADrawer alloc] initWithFrame:CGRectMake(0, 436, 320, 194)];
   
   [qpaDrawer.toolbar addTarget:self action:@selector(showHideQPADrawer:) forControlEvents:UIControlEventTouchUpInside];
+  [qpaDrawer.settings addTarget:self action:@selector(showSettings:) forControlEvents:UIControlEventTouchUpInside];
   
   qpaDrawer.layer.shadowColor = [[UIColor blackColor] CGColor];
   qpaDrawer.layer.shadowOffset = CGSizeMake(0, -qpaDrawer.toolbar.frame.size.height + 3);
@@ -290,9 +302,8 @@
     }];
   }
   
-  [self updateQPADrawer];
-  
   [self.tableView reloadData];
+  [self updateQPADrawerWithChange:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -300,6 +311,8 @@
   //[super viewWillDisappear:animated];
   if (drawerOpen)
     [self showHideQPADrawer:nil];
+  
+  
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -407,7 +420,7 @@
     
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
-    [self updateQPADrawer];
+    [self updateQPADrawerWithChange:YES];
     
     if (courses.count == 0) {
       [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
@@ -476,16 +489,16 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EditView *editView = [[EditView alloc] initWithFrame:CGRectMake(0, 20, 320, 460)];
-    editView.alpha = 0.0;
+    editView.center = CGPointMake(160, -50);
     editView.selectedRow = indexPath;
     [self.navigationController.view addSubview:editView];
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationDuration:0.5];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     
-    editView.alpha = 1.0;
+    editView.center = CGPointMake(160, 240);
     
     [UIView commitAnimations];
   }

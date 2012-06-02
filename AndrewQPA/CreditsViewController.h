@@ -10,13 +10,9 @@
 
 @interface CreditsViewController : UIViewController
 {
-  UINavigationBar *navigationBar;
-  UITextView *bibTV;
+  UITextView *version;
 }
 
-@property (nonatomic, retain) IBOutlet UINavigationBar *navigationBar;
-@property (nonatomic, retain) IBOutlet UITextView *bibTV;
-
-- (IBAction)dismiss:(id)sender;
+@property (nonatomic, retain) IBOutlet UITextView *version;
 
 @end
