@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "CoursesViewController.h"
+#import "UIImage+Additions_568.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -8,6 +8,14 @@
 	<string>QPA</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string></string>
+	</array>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
@@ -32,13 +40,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.3</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -46,7 +58,7 @@
 		<string>armv7</string>
 	</array>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleBlackOpaque</string>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

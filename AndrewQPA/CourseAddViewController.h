@@ -17,24 +17,29 @@
 @end
 
 @interface CourseAddViewController : UIViewController <UITextViewDelegate> {
-  UIView *step1;
-  UIView *step2;
-  UIView *step3;
-  UIView *summaryView;
-  
-  UITextView *nameField1;
-  UITextView *nameField2;
-  UITextView *unitsField;
-  UIButton *gradeButtonA;
-  UIButton *gradeButtonB;
-  UIButton *gradeButtonC;
-  UIButton *gradeButtonD;
-  UIButton *gradeButtonR;
-  NSString *gradeStr;
-  
-  UIBarButtonItem *saveButton;
-  UILabel *overviewCourse;
-  UILabel *overviewUnits;
+    UIView *step1;
+    UIView *step2;
+    UIView *step3;
+    UIView *summaryView;
+
+    UIImageView *step1Bkg;
+    UIImageView *step2Bkg;
+    UIImageView *step3Bkg;
+    UIImageView *summaryBkg;
+
+    UITextView *nameField1;
+    UITextView *nameField2;
+    UITextView *unitsField;
+    UIButton *gradeButtonA;
+    UIButton *gradeButtonB;
+    UIButton *gradeButtonC;
+    UIButton *gradeButtonD;
+    UIButton *gradeButtonR;
+    NSString *gradeStr;
+
+    UIBarButtonItem *saveButton;
+    UILabel *overviewCourse;
+    UILabel *overviewUnits;
 }
 
 @property (nonatomic, weak) id <CourseAddViewControllerDelegate> delegate;
@@ -42,6 +47,10 @@
 @property (nonatomic, retain) IBOutlet UIView *step2;
 @property (nonatomic, retain) IBOutlet UIView *step3;
 @property (nonatomic, retain) IBOutlet UIView *summaryView;
+@property (nonatomic, retain) IBOutlet UIImageView *step1Bkg;
+@property (nonatomic, retain) IBOutlet UIImageView *step2Bkg;
+@property (nonatomic, retain) IBOutlet UIImageView *step3Bkg;
+@property (nonatomic, retain) IBOutlet UIImageView *summaryBkg;
 @property (nonatomic, retain) IBOutlet UITextView *nameField1;
 @property (nonatomic, retain) IBOutlet UITextView *nameField2;
 @property (nonatomic, retain) IBOutlet UITextView *unitsField;
